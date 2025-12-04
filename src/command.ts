@@ -77,7 +77,8 @@ function worker(args: string[], options: CommandOptions, callback: CommandCallba
   // Explicit legacy flag
   if (args.indexOf('--legacy') >= 0) {
     console.log('[tsds-biome] Using legacy mode (npm run format)');
-    return spawn('npm', ['run', 'format'], { ...options, cwd }, callback);
+    spawn('npm', ['run', 'format'], { ...options, cwd }, callback);
+    return;
   }
 
   const mode = detectMode(cwd);
@@ -85,7 +86,8 @@ function worker(args: string[], options: CommandOptions, callback: CommandCallba
   if (mode === 'legacy') {
     console.log('[tsds-biome] Using legacy mode (npm run format)');
     console.log('[tsds-biome] To migrate: extend tsds-config/biome.json in your biome.json');
-    return spawn('npm', ['run', 'format'], { ...options, cwd }, callback);
+    spawn('npm', ['run', 'format'], { ...options, cwd }, callback);
+    return;
   }
 
   // Bundled biome mode
