@@ -1,5 +1,6 @@
 import spawn from 'cross-spawn-cb';
 import fs from 'fs';
+import getopts from 'getopts-compat';
 import path from 'path';
 import resolveBin from 'resolve-bin-sync';
 import { type CommandCallback, type CommandOptions, wrapWorker } from 'tsds-lib';
@@ -68,14 +69,20 @@ function resolveDefaultConfig(): string | null {
  */
 function worker(args: string[], options: CommandOptions, callback: CommandCallback): undefined {
   const cwd = (options.cwd as string) || process.cwd();
+  const opts = getopts(args, { alias: { 'dry-run': 'd' }, boolean: ['dry-run', 'legacy'] });
 
   // Windows platform check (existing behavior)
   if (process.platform === 'win32' && ['x64', 'arm64'].indexOf(process.arch) < 0) {
     return callback();
   }
 
+  if (opts['dry-run']) {
+    console.log('Dry-run: would format code with biome');
+    return callback();
+  }
+
   // Explicit legacy flag
-  if (args.indexOf('--legacy') >= 0) {
+  if (opts.legacy) {
     console.log('[tsds-biome] Using legacy mode (npm run format)');
     spawn('npm', ['run', 'format'], { ...options, cwd }, callback);
     return;
@@ -103,9 +110,9 @@ function worker(args: string[], options: CommandOptions, callback: CommandCallba
     }
   }
 
-  // Append any additional args (filter out --legacy)
+  // Append any additional args (filter out --legacy and --dry-run)
   for (let i = 0; i < args.length; i++) {
-    if (args[i] !== '--legacy') {
+    if (args[i] !== '--legacy' && args[i] !== '--dry-run' && args[i] !== '-d') {
       spawnArgs.push(args[i]);
     }
   }
