@@ -42,6 +42,7 @@
   "dependencies": {
     "@biomejs/biome": "*",
     "cross-spawn-cb": "*",
+    "getopts-compat": "^2.2.6",
     "resolve-bin-sync": "*",
     "tsds-lib": "*"
   },
