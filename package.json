@@ -45,14 +45,6 @@
     "resolve-bin-sync": "*",
     "tsds-lib": "*"
   },
-  "peerDependencies": {
-    "tsds-config": ">=0.0.1"
-  },
-  "peerDependenciesMeta": {
-    "tsds-config": {
-      "optional": true
-    }
-  },
   "devDependencies": {
     "@types/mocha": "*",
     "@types/node": "*",
@@ -66,7 +58,16 @@
     "short-hash": "*",
     "ts-dev-stack": "*",
     "ts-swc-loaders": "*",
+    "tsds-config": "*",
     "tsds-lib-test": "*"
+  },
+  "peerDependencies": {
+    "tsds-config": ">=0.0.1"
+  },
+  "peerDependenciesMeta": {
+    "tsds-config": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=0.8"
