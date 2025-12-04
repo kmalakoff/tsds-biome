@@ -40,11 +40,20 @@
     "version": "tsds version"
   },
   "dependencies": {
+    "@biomejs/biome": "*",
     "cross-spawn-cb": "*",
+    "resolve-bin-sync": "*",
     "tsds-lib": "*"
   },
+  "peerDependencies": {
+    "tsds-config": ">=0.0.1"
+  },
+  "peerDependenciesMeta": {
+    "tsds-config": {
+      "optional": true
+    }
+  },
   "devDependencies": {
-    "@biomejs/biome": "*",
     "@types/mocha": "*",
     "@types/node": "*",
     "mocha": "*",
