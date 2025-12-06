@@ -54,7 +54,7 @@ function addTests(repo) {
       it('format', (done) => {
         format([], { cwd: dest }, (err?: Error): undefined => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           done();
