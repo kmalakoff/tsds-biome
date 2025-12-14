@@ -13,6 +13,7 @@ const version = major > 14 ? 'local' : 'stable';
 // Compatible __dirname (ESM + CJS)
 const __dirname = path.dirname(typeof __filename === 'undefined' ? url.fileURLToPath(import.meta.url) : __filename);
 const dist = path.join(__dirname, '..');
+const isWindows = process.platform === 'win32' || /^(msys|cygwin)$/.test(process.env.OSTYPE);
 
 // wrapWorker points to CJS version for subprocess execution
 const workerWrapper = wrapWorker(path.join(dist, 'cjs', 'command.js'));
@@ -72,7 +73,7 @@ function worker(args: string[], options: CommandOptions, callback: CommandCallba
   const opts = getopts(args, { alias: { 'dry-run': 'd' }, boolean: ['dry-run', 'legacy'] });
 
   // Windows platform check (existing behavior)
-  if (process.platform === 'win32' && ['x64', 'arm64'].indexOf(process.arch) < 0) {
+  if (isWindows && ['x64', 'arm64'].indexOf(process.arch) < 0) {
     return callback();
   }
 
