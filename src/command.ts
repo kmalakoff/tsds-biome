@@ -1,9 +1,10 @@
 import spawn from 'cross-spawn-cb';
 import fs from 'fs';
 import getopts from 'getopts-compat';
+import { wrap } from 'node-version-call';
 import path from 'path';
 import resolveBin from 'resolve-bin-sync';
-import { type CommandCallback, type CommandOptions, wrapWorker } from 'tsds-lib';
+import type { CommandCallback, CommandOptions } from 'tsds-lib';
 import url from 'url';
 
 // Node version detection (same pattern as other commands)
@@ -15,8 +16,8 @@ const __dirname = path.dirname(typeof __filename === 'undefined' ? url.fileURLTo
 const dist = path.join(__dirname, '..');
 const isWindows = process.platform === 'win32' || /^(msys|cygwin)$/.test(process.env.OSTYPE);
 
-// wrapWorker points to CJS version for subprocess execution
-const workerWrapper = wrapWorker(path.join(dist, 'cjs', 'command.js'));
+// wrap points to CJS version for subprocess execution
+const workerWrapper = wrap(path.join(dist, 'cjs', 'command.js'));
 
 /**
  * Detect whether to use bundled biome or legacy npm run format.
