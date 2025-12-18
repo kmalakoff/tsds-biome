@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@biomejs/biome": "2.3.10",
-    "cross-spawn-cb": "^2.0.0",
+    "cross-spawn-cb": "^3.0.0",
     "getopts-compat": "^2.2.6",
     "node-version-call": "^1.11.0",
     "resolve-bin-sync": "^1.0.12",
