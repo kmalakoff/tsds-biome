@@ -125,7 +125,7 @@ function worker(args: string[], options: CommandOptions, callback: CommandCallba
 /**
  * Main export - follows wrapWorker pattern for Node 0.8+ compatibility.
  */
-export default function format(args: string[], options: CommandOptions, callback: CommandCallback): undefined {
+export default function format(args: string[], options: CommandOptions, callback: CommandCallback): void {
   // If Node <= 14: spawn subprocess with 'stable' Node via wrapWorker
   // If Node > 14: run worker directly in current process
   version !== 'local' ? workerWrapper('stable', args, options, callback) : worker(args, options, callback);
