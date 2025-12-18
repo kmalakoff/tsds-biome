@@ -1,23 +1,16 @@
 import spawn from 'cross-spawn-cb';
 import fs from 'fs';
 import getopts from 'getopts-compat';
-import { wrap } from 'node-version-call';
+import { bind } from 'node-version-call';
 import path from 'path';
 import resolveBin from 'resolve-bin-sync';
 import type { CommandCallback, CommandOptions } from 'tsds-lib';
 import url from 'url';
 
-// Node version detection (same pattern as other commands)
 const major = +process.versions.node.split('.')[0];
-const version = major > 14 ? 'local' : 'stable';
-
-// Compatible __dirname (ESM + CJS)
 const __dirname = path.dirname(typeof __filename === 'undefined' ? url.fileURLToPath(import.meta.url) : __filename);
 const dist = path.join(__dirname, '..');
 const isWindows = process.platform === 'win32' || /^(msys|cygwin)$/.test(process.env.OSTYPE);
-
-// wrap points to CJS version for subprocess execution
-const workerWrapper = wrap(path.join(dist, 'cjs', 'command.js'));
 
 /**
  * Detect whether to use bundled biome or legacy npm run format.
@@ -66,10 +59,7 @@ function resolveDefaultConfig(): string | null {
   }
 }
 
-/**
- * The actual worker function - runs in 'stable' Node when user is on old Node.
- */
-function worker(args: string[], options: CommandOptions, callback: CommandCallback) {
+function run(args: string[], options: CommandOptions, callback: CommandCallback) {
   const cwd = (options.cwd as string) || process.cwd();
   const opts = getopts(args, { alias: { 'dry-run': 'd' }, boolean: ['dry-run', 'legacy'] });
 
@@ -122,11 +112,8 @@ function worker(args: string[], options: CommandOptions, callback: CommandCallba
   spawn(biomeBin, spawnArgs, { ...options, cwd }, callback);
 }
 
-/**
- * Main export - follows wrapWorker pattern for Node 0.8+ compatibility.
- */
+const worker = major >= 20 ? run : bind('>=20', path.join(dist, 'cjs', 'command.js'), { callbacks: true });
+
 export default function format(args: string[], options: CommandOptions, callback: CommandCallback): void {
-  // If Node <= 14: spawn subprocess with 'stable' Node via wrapWorker
-  // If Node > 14: run worker directly in current process
-  version !== 'local' ? workerWrapper('stable', args, options, callback) : worker(args, options, callback);
+  worker(args, options, callback);
 }
