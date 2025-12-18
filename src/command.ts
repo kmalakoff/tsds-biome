@@ -69,7 +69,7 @@ function resolveDefaultConfig(): string | null {
 /**
  * The actual worker function - runs in 'stable' Node when user is on old Node.
  */
-function worker(args: string[], options: CommandOptions, callback: CommandCallback): undefined {
+function worker(args: string[], options: CommandOptions, callback: CommandCallback) {
   const cwd = (options.cwd as string) || process.cwd();
   const opts = getopts(args, { alias: { 'dry-run': 'd' }, boolean: ['dry-run', 'legacy'] });
 
