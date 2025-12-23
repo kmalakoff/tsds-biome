@@ -41,9 +41,9 @@
   },
   "dependencies": {
     "@biomejs/biome": "2.3.10",
-    "cross-spawn-cb": "^3.0.0",
-    "getopts-compat": "^2.2.6",
-    "node-version-call": "^2.1.0",
+    "cross-spawn-cb": "^3.1.0",
+    "getopts-compat": "^2.2.5",
+    "node-version-call": "^3.0.0",
     "resolve-bin-sync": "^1.0.12",
     "tsds-lib": "^1.21.1"
   },
@@ -58,7 +58,7 @@
     "short-hash": "^1.0.0",
     "ts-dev-stack": "*",
     "tsds-config": "*",
-    "tsds-lib-test": "^1.20.0"
+    "tsds-lib-test": "^1.20.2"
   },
   "peerDependencies": {
     "tsds-config": ">=0.0.1"
