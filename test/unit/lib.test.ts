@@ -21,7 +21,7 @@ const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : 
 
 const GITS = ['https://github.com/kmalakoff/fetch-http-message.git'];
 
-function addTests(repo) {
+function addTests(repo: string) {
   const repoName = path.basename(repo, path.extname(repo));
   describe(repoName, () => {
     const dest = path.join(tmpdir(), 'tsds-biome', shortHash(process.cwd()), repoName);
