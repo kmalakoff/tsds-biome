@@ -10,7 +10,7 @@ import url from 'url';
 const major = +process.versions.node.split('.')[0];
 const __dirname = path.dirname(typeof __filename === 'undefined' ? url.fileURLToPath(import.meta.url) : __filename);
 const dist = path.join(__dirname, '..');
-const isWindows = process.platform === 'win32' || /^(msys|cygwin)$/.test(process.env.OSTYPE);
+const isWindows = process.platform === 'win32' || /^(msys|cygwin)$/.test(process.env.OSTYPE ?? '');
 
 /**
  * Detect whether to use bundled biome or legacy npm run format.
