@@ -40,7 +40,7 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "@biomejs/biome": "2.3.10",
+    "@biomejs/biome": "^2.4.15",
     "cross-spawn-cb": "^3.1.0",
     "getopts-compat": "^2.2.5",
     "node-version-call": "^3.0.0",
@@ -50,6 +50,8 @@
   "devDependencies": {
     "@types/mocha": "*",
     "@types/node": "*",
+    "@types/resolve": "^1.20.6",
+    "@types/short-hash": "^1.0.3",
     "module-link-unlink": "^1.1.0",
     "node-version-use": "*",
     "os-shim": "^0.1.3",
