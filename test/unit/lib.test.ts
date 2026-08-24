@@ -31,32 +31,27 @@ function addTests(repo: string) {
     const deps = { ...(modulePackage.dependencies || {}), ...(modulePackage.peerDependencies || {}) };
 
     before((cb) => {
-      installGitRepo(repo, dest, (err?: Error): void => {
-        if (err) {
-          cb(err);
-          return;
-        }
+      installGitRepo(repo, dest, (err?: Error | null): void => {
+        if (err) return cb(err);
 
         const queue = new Queue();
-        queue.defer(linkModule.bind(null, modulePath, nodeModules));
-        for (const dep in deps) queue.defer(linkModule.bind(null, path.dirname(resolveSync(`${dep}/package.json`)), nodeModules));
+        queue.defer((cb) => linkModule(modulePath, nodeModules, (err) => cb(err)));
+        for (const dep in deps) queue.defer((cb) => linkModule(path.dirname(resolveSync(`${dep}/package.json`)), nodeModules, (err) => cb(err)));
         queue.await(cb);
       });
     });
     after((cb) => {
       const queue = new Queue();
-      queue.defer(unlinkModule.bind(null, modulePath, nodeModules));
-      for (const dep in deps) queue.defer(unlinkModule.bind(null, path.dirname(resolveSync(`${dep}/package.json`)), nodeModules));
+      queue.defer((cb) => unlinkModule(modulePath, nodeModules, (err) => cb(err)));
+      for (const dep in deps) queue.defer((cb) => unlinkModule(path.dirname(resolveSync(`${dep}/package.json`)), nodeModules, (err) => cb(err)));
       queue.await(cb);
     });
 
     describe('happy path', () => {
       it('format', (done) => {
-        format([], { cwd: dest }, (err?: Error): void => {
-          if (err) {
-            done(err);
-            return;
-          }
+        format([], { cwd: dest }, (err?: Error | null): void => {
+          if (err) return done(err);
+
           done();
         });
       });
