@@ -3,8 +3,6 @@ delete process.env.NODE_OPTIONS;
 
 import fs from 'fs';
 import { linkModule, unlinkModule } from 'module-link-unlink';
-import os from 'os';
-import osShim from 'os-shim';
 import path from 'path';
 import Queue from 'queue-cb';
 import * as resolve from 'resolve';
@@ -12,19 +10,19 @@ import shortHash from 'short-hash';
 import { installGitRepo } from 'tsds-lib-test';
 import url from 'url';
 
-const tmpdir = os.tmpdir || osShim.tmpdir;
 const resolveSync = (resolve.default ?? resolve).sync;
 
 import format from 'tsds-biome';
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
+const packageRoot = fs.realpathSync(path.join(__dirname, '..', '..'));
 
 const GITS = ['https://github.com/kmalakoff/fetch-http-message.git'];
 
 function addTests(repo: string) {
   const repoName = path.basename(repo, path.extname(repo));
   describe(repoName, () => {
-    const dest = path.join(tmpdir(), 'tsds-biome', shortHash(process.cwd()), repoName);
+    const dest = path.join(packageRoot, '.tmp', 'cache', shortHash(process.cwd()), repoName);
     const modulePath = fs.realpathSync(path.join(__dirname, '..', '..'));
     const modulePackage = JSON.parse(fs.readFileSync(path.join(modulePath, 'package.json'), 'utf8'));
     const nodeModules = path.join(dest, 'node_modules');
