@@ -51,12 +51,10 @@
     "@types/mocha": "*",
     "@types/node": "*",
     "@types/resolve": "^1.20.6",
-    "@types/short-hash": "^1.0.3",
     "module-link-unlink": "^1.1.0",
     "node-version-use": "*",
     "queue-cb": "^1.6.3",
     "resolve": "^1.22.11",
-    "short-hash": "^1.0.0",
     "ts-dev-stack": "*",
     "tsds-config": "*",
     "tsds-lib-test": "^1.20.2"
